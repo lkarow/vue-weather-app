@@ -92,8 +92,10 @@ export default {
   components: {},
   data() {
     return {
-      api_key: process.env.VUE_APP_API_KEY,
-      url_base: 'https://api.openweathermap.org/data/2.5/',
+      // For direct calls to the OpenWeather API
+      // api_key: process.env.VUE_APP_API_KEY,
+      // url_base: 'https://api.openweathermap.org/data/2.5/',
+      url_base: 'https://weather-app-api-2022.herokuapp.com/',
       query: '',
       weather: {},
     };
@@ -102,7 +104,9 @@ export default {
     fetchWeather(e) {
       if (e.key === 'Enter') {
         fetch(
-          `${this.url_base}forecast?q=${this.query}&units=metric&appid=${this.api_key}`
+          // For direct calls to the OpenWeather API
+          // `${this.url_base}forecast?q=${this.query}&units=metric&appid=${this.api_key}`
+          `${this.url_base}?q=${this.query}&units=metric`
         )
           .then((resp) => {
             return resp.json();

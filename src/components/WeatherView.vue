@@ -95,7 +95,7 @@ export default {
       // For direct calls to the OpenWeather API
       // api_key: process.env.VUE_APP_API_KEY,
       // url_base: 'https://api.openweathermap.org/data/2.5/',
-      url_base: 'https://weather-app-api-2022.herokuapp.com/',
+      url_base: 'https://weather-app-backend-ten.vercel.app/',
       query: '',
       weather: {},
     };

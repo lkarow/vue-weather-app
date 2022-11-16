@@ -12,6 +12,7 @@
             @keypress="fetchWeather"
           />
         </div>
+        <LoadingSpinner v-if="isLoading" />
         <div class="weather-container">
           <div class="weather-wrap" v-if="typeof weather.list != 'undefined'">
             <div class="location-box">
@@ -87,9 +88,11 @@
 </template>
 
 <script>
+import LoadingSpinner from './LoadingSpinner.vue';
+
 export default {
   name: 'App',
-  components: {},
+  components: { LoadingSpinner },
   data() {
     return {
       // For direct calls to the OpenWeather API
@@ -98,17 +101,20 @@ export default {
       url_base: 'https://weather-app-backend-ten.vercel.app/',
       query: '',
       weather: {},
+      isLoading: true,
     };
   },
   methods: {
     fetchWeather(e) {
       if (e.key === 'Enter') {
+        this.isLoading = true;
         fetch(
           // For direct calls to the OpenWeather API
           // `${this.url_base}forecast?q=${this.query}&units=metric&appid=${this.api_key}`
           `${this.url_base}?q=${this.query}&units=metric`
         )
           .then((resp) => {
+            this.isLoading = false;
             return resp.json();
           })
           .then(this.setResults);

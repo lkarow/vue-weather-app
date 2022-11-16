@@ -115,31 +115,37 @@ export default {
         day: 'numeric',
       });
     },
-    getClass() {
+  },
+  watch: {
+    weather(newWeather) {
+      const app = document.querySelector('#app');
       // Rain
       if (
-        typeof this.weather.list != 'undefined' &&
-        this.weather.list[0].weather[0].main === 'Rain'
+        typeof newWeather.list != 'undefined' &&
+        newWeather.list[0].weather[0].main === 'Rain'
       ) {
-        return 'rain';
+        app.classList.remove('snow', 'hot');
+        app.classList.add('rain');
       }
       // Snow or cold
       else if (
-        (typeof this.weather.list != 'undefined' &&
-          this.weather.list[0].weather[0].main === 'Snow') ||
-        (typeof this.weather.list != 'undefined' &&
-          this.weather.list[0].main.temp < 0)
+        (typeof newWeather.list != 'undefined' &&
+          newWeather.list[0].weather[0].main === 'Snow') ||
+        (typeof newWeather.list != 'undefined' &&
+          newWeather.list[0].main.temp < 0)
       ) {
-        return 'snow';
+        app.classList.remove('rain', 'hot');
+        app.classList.add('snow');
       }
       // Hot
       else if (
-        typeof this.weather.list != 'undefined' &&
-        this.weather.list[0].main.temp > 24
+        typeof newWeather.list != 'undefined' &&
+        newWeather.list[0].main.temp > 24
       ) {
-        return 'hot';
+        app.classList.remove('rain', 'snow');
+        app.classList.add('hot');
       } else {
-        return '';
+        app.classList.remove('rain', 'snow', 'hot');
       }
     },
   },

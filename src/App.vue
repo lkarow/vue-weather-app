@@ -1,13 +1,17 @@
 <template>
   <WeatherView />
+  <FooterView />
 </template>
 
 <script>
 import WeatherView from './components/WeatherView.vue';
+import FooterView from './components/FooterView.vue';
 
 export default {
+  name: 'App',
   components: {
     WeatherView,
+    FooterView,
   },
   data() {
     return {};
@@ -22,5 +26,9 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+#app {
+  min-height: 100vh;
 }
 </style>

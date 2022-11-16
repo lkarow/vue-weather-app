@@ -78,11 +78,6 @@
           </div>
         </div>
       </div>
-      <div class="attribute">
-        <a href="https://www.freepik.com/author/upklyak" target="_blank">
-          Backgrounds created by upklyak - www.freepik.com
-        </a>
-      </div>
     </main>
   </div>
 </template>
@@ -101,7 +96,7 @@ export default {
       url_base: 'https://weather-app-backend-ten.vercel.app/',
       query: '',
       weather: {},
-      isLoading: true,
+      isLoading: false,
     };
   },
   methods: {
@@ -334,15 +329,5 @@ h1 {
   font-weight: 700;
   font-style: italic;
   text-shadow: 1px 3px rgba(0, 0, 0, 0.25);
-}
-
-.attribute {
-  margin-top: 20px;
-  font-size: 12px;
-  text-align: center;
-}
-
-.attribute a {
-  color: #fff;
 }
 </style>

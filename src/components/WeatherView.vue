@@ -1,84 +1,73 @@
 <template>
-  <div id="app" :class="getClass()">
-    <main>
-      <div class="app-container">
-        <h1>Weather App</h1>
-        <div class="search-box">
-          <input
-            type="text"
-            class="search-bar"
-            placeholder="Search for a city"
-            v-model="query"
-            @keypress="fetchWeather"
-          />
-        </div>
-        <LoadingSpinner v-if="isLoading" />
-        <div class="weather-container">
-          <div class="weather-wrap" v-if="typeof weather.list != 'undefined'">
-            <div class="location-box">
-              <div class="location">
-                {{ weather.city.name }}, {{ weather.city.country }}
-              </div>
-              <div class="date">
-                {{ formatDate(weather.list[0].dt_txt) }}
-              </div>
-            </div>
-            <div class="weather-box">
-              <div class="temp">
-                {{ Math.round(weather.list[0].main.temp) }}°C
-              </div>
-              <div class="weather">{{ weather.list[0].weather[0].main }}</div>
-              <div class="weather-icon">
-                <img
-                  :src="
-                    require(`@/assets/icons/${weather.list[0].weather[0].icon}.png`)
-                  "
-                  alt="Icon of current weather"
-                />
-              </div>
-            </div>
+  <div class="weather-view-container">
+    <div class="search-box">
+      <input
+        type="text"
+        class="search-bar"
+        placeholder="Search for a city"
+        v-model="query"
+        @keypress="fetchWeather"
+      />
+    </div>
+    <LoadingSpinner v-if="isLoading" />
+    <div class="weather-container" v-if="!isLoading">
+      <div class="weather-wrap" v-if="typeof weather.list != 'undefined'">
+        <div class="location-box">
+          <div class="location">
+            {{ weather.city.name }}, {{ weather.city.country }}
+          </div>
+          <div class="date">
+            {{ formatDate(weather.list[0].dt_txt) }}
           </div>
         </div>
-        <div class="weather-container forecast-container">
-          <div class="forecast-wrap" v-if="typeof weather.list != 'undefined'">
-            <div class="forecast-box">
-              <div class="date">
-                {{ formatDate(weather.list[8].dt_txt) }}
-              </div>
-              <div class="temp">
-                {{ Math.round(weather.list[8].main.temp) }}°C
-              </div>
-              <div class="weather">{{ weather.list[8].weather[0].main }}</div>
-              <div class="weather-icon">
-                <img
-                  :src="
-                    require(`@/assets/icons/${weather.list[8].weather[0].icon}.png`)
-                  "
-                  alt="Icon of current weather"
-                />
-              </div>
-            </div>
-            <div class="forecast-box">
-              <div class="date">
-                {{ formatDate(weather.list[16].dt_txt) }}
-              </div>
-              <div class="temp">
-                {{ Math.round(weather.list[16].main.temp) }}°C
-              </div>
-              <div class="weather">{{ weather.list[16].weather[0].main }}</div>
-              <div class="weather-icon">
-                <img
-                  :src="
-                    require(`@/assets/icons/${weather.list[16].weather[0].icon}.png`)
-                  "
-                  alt="Icon of current weather"
-                />
-              </div>
-            </div>
+        <div class="weather-box">
+          <div class="temp">{{ Math.round(weather.list[0].main.temp) }}°C</div>
+          <div class="weather">{{ weather.list[0].weather[0].main }}</div>
+          <div class="weather-icon">
+            <img
+              :src="
+                require(`@/assets/icons/${weather.list[0].weather[0].icon}.png`)
+              "
+              alt="Icon of current weather"
+            />
           </div>
         </div>
       </div>
-    </main>
+    </div>
+    <div class="weather-container forecast-container" v-if="!isLoading">
+      <div class="forecast-wrap" v-if="typeof weather.list != 'undefined'">
+        <div class="forecast-box">
+          <div class="date">
+            {{ formatDate(weather.list[8].dt_txt) }}
+          </div>
+          <div class="temp">{{ Math.round(weather.list[8].main.temp) }}°C</div>
+          <div class="weather">{{ weather.list[8].weather[0].main }}</div>
+          <div class="weather-icon">
+            <img
+              :src="
+                require(`@/assets/icons/${weather.list[8].weather[0].icon}.png`)
+              "
+              alt="Icon of current weather"
+            />
+          </div>
+        </div>
+        <div class="forecast-box">
+          <div class="date">
+            {{ formatDate(weather.list[16].dt_txt) }}
+          </div>
+          <div class="temp">{{ Math.round(weather.list[16].main.temp) }}°C</div>
+          <div class="weather">{{ weather.list[16].weather[0].main }}</div>
+          <div class="weather-icon">
+            <img
+              :src="
+                require(`@/assets/icons/${weather.list[16].weather[0].icon}.png`)
+              "
+              alt="Icon of current weather"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -160,53 +149,8 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
-:root {
-  --text-color: rgb(33, 33, 33);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'montserrat', sans-serif;
-}
-
-#app {
-  background-image: url('../assets/bg.jpg');
-  background-size: cover;
-  background-position: center;
-  transition: background-image 0.4s;
-}
-
-#app.hot {
-  background-image: url('../assets/hot.jpg');
-}
-
-#app.rain {
-  background-image: url('../assets/rain.jpg');
-}
-
-#app.snow {
-  background-image: url('../assets/snow.jpg');
-}
-
-main {
-  padding: 10px;
-}
-
-.app-container {
-  min-height: 100vh;
-}
-
-h1 {
-  color: var(--text-color);
-  font-size: 40px;
-  font-weight: 700;
-  text-align: center;
-  margin: 20px;
+.weather-view-container {
+  flex-grow: 1;
 }
 
 .search-box {
@@ -235,6 +179,7 @@ h1 {
   background-color: rgba(255, 255, 255, 0.75);
   box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
 }
+
 .weather-container {
   max-width: 500px;
   margin: 0 auto;

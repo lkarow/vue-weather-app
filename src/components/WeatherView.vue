@@ -10,7 +10,17 @@
       />
     </div>
     <LoadingSpinner v-if="isLoading" />
-    <div class="weather-container" v-if="!isLoading">
+    <div class="error-container" v-if="error">
+      <div class="weather-container">
+        <div class="weather-wrap">
+          <div class="error-container-title">Error</div>
+          <div class="error-container-text">
+            Sorry, an error has occurred. Please try again.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="weather-container" v-if="!isLoading || !error">
       <div class="weather-wrap" v-if="typeof weather.list != 'undefined'">
         <div class="location-box">
           <div class="location">
@@ -34,7 +44,10 @@
         </div>
       </div>
     </div>
-    <div class="weather-container forecast-container" v-if="!isLoading">
+    <div
+      class="weather-container forecast-container"
+      v-if="!isLoading || !error"
+    >
       <div class="forecast-wrap" v-if="typeof weather.list != 'undefined'">
         <div class="forecast-box">
           <div class="date">
@@ -86,6 +99,7 @@ export default {
       query: '',
       weather: {},
       isLoading: false,
+      error: false,
     };
   },
   methods: {
@@ -101,11 +115,20 @@ export default {
             this.isLoading = false;
             return resp.json();
           })
-          .then(this.setResults);
+          .then(this.setResults)
+          .catch((error) => {
+            this.setError();
+            console.error('Error:', error);
+          });
       }
     },
     setResults(results) {
+      this.error = false;
       this.weather = results;
+    },
+    setError() {
+      this.weather = {};
+      this.error = true;
     },
     formatDate(date) {
       return new Date(date).toLocaleDateString('en-US', {
@@ -280,5 +303,20 @@ export default {
   font-weight: 700;
   font-style: italic;
   text-shadow: 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.error-container-title {
+  color: var(--text-color);
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.error-container-text {
+  color: var(--text-color);
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
 }
 </style>
